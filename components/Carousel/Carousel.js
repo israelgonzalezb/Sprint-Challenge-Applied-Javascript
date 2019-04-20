@@ -7,7 +7,8 @@ class Carousel {
     this.images = carousel.querySelectorAll('img');
     
     this.current = 0;
-    this.images[this.current].style.display="block"; 
+   
+    this.images[this.current].style.display="flex"; 
     
     this.leftButton.addEventListener('click',x=>this.left());
     this.rightButton.addEventListener('click',x=>this.right());
@@ -16,12 +17,11 @@ class Carousel {
     left(){
       if (this.current===0){
         this.current=3;
-        
       }else{
         this.current--;
       }
       
-      this.setImage();
+      this.setImage('left');
     }
   right(){
     if (this.current===3){
@@ -30,11 +30,14 @@ class Carousel {
       this.current++;
     }
     
-    this.setImage();
+    this.setImage('right');
   }
-  setImage(){
-    this.images.forEach( x => x.style.display="none");
-    this.images[this.current].style.display="block";
+  setImage(direction){
+    let slideInit = direction === 'left' ? document.documentElement.clientWidth : -1*document.documentElement.clientWidth;
+    this.images.forEach( x =>x.style.display="none");
+    TweenMax.from(this.images[this.current], 1.5, {opacity:0, x:slideInit});
+    this.images[this.current].style.display="flex";
+    
   }
     
   }
